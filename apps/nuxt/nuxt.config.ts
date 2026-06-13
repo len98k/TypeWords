@@ -274,6 +274,7 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE || 'http://localhost/',
       origin: process.env.ORIGIN || 'https://typewords.cc',
       host: process.env.HOST || 'typewords.cc',
+      passwordRsaPublicKey: process.env.VITE_PASSWORD_RSA_PUBLIC_KEY || '',
       latestCommitHash: latestCommitHash + (process.env.NODE_ENV === 'production' ? '' : ' (dev)'),
       latestCommitTime: latestCommitTime,
     },
