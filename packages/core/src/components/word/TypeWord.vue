@@ -4,6 +4,7 @@ import { getDefaultWord, IdentifyMethod, ShortcutKey, WordPracticeType } from '.
 import { useBaseStore, useSettingStore } from '../../stores'
 import {
   getBrowserKey,
+  resetActiveWordPlayCount,
   usePlayBeep,
   usePlayCorrect,
   usePlayKeyboardAudio,
@@ -149,9 +150,10 @@ function reset() {
   currentPracticeSentenceIndex = -1
   wordCompletedTime = 0 // 重置时间戳
   wrongTimes.value = 0
+  resetActiveWordPlayCount(props.word.word)
   if (settingStore.wordSound) {
     if (settingStore.wordPracticeType !== WordPracticeType.Dictation) {
-      volumeIconRef?.play(400, true)
+      volumeIconRef?.play(false, true)
     }
   }
   // 更新当前单词信息
@@ -617,7 +619,7 @@ function checkIsWrong() {
 
 function play() {
   checkIsWrong()
-  volumeIconRef?.play()
+  volumeIconRef?.play(true)
 }
 
 defineExpose({ del, showWord, hideWord, play, showWordResult, wrongTimes })
@@ -751,7 +753,7 @@ const isCollect = $computed(() => isWordCollect(props.word))
           ref="volumeIconRef"
           :simple="true"
           @click="checkIsWrong"
-          :cb="() => playWordAudio(word.word)"
+          :cb="active => playWordAudio(word.word, active)"
         />
       </div>
 
